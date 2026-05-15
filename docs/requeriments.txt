@@ -1,0 +1,4 @@
+1. For use this aplication, you need the .venv, to make this requeriment, use this command:
+
+    2.Install .venv
+        
