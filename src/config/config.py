@@ -2,12 +2,12 @@ import os
 
 from dotenv import load_dotenv
 load_dotenv()
-from openai import OpenAI
+from google import genai
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "https://openrouter.ai/google/gemma-4-26b-a4b-it:free")
+OPENAI_API_KEY = os.getenv("GEMMA_API_KEY")
+OPENAI_API_BASE = os.getenv("GEMMA_API_BASE", "https://openrouter.ai/google/gemma-4-26b-a4b-it:free")
 
-client = OpenAI(
+client = genai.Client(
     base_url=OPENAI_API_BASE,
     api_key=OPENAI_API_KEY
 )
