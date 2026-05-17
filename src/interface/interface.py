@@ -35,7 +35,7 @@ def returns_img_path(state):
     IMG_FOLDER = r"..\services\image"
 
     try:
-        img_path = os.path.join(IMG_FOLDER, img_state_gorilla[state])
+        img_path = os.path.join(os.path.dirname(__file__), "..", "services", "image", img_state_gorilla[state])
 
     except KeyError:
         print("Unable to return image path! The program will be terminated.")
