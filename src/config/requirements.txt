@@ -1,5 +1,1 @@
-numpy>=2.0.0
-python-dotenv>=1.0.1
-openai>=1.0.0  # Ou google-generativeai, dependendo da sua brain_api
-requests>=2.31.0
-pydantic>=2.0.0
+pip install numpy python-dotenv openai requests pydantic speechrecognition edge-tts google-generativeai
