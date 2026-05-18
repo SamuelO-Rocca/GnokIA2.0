@@ -1,0 +1,10 @@
+numpy>=2.0.0
+python-dotenv>=1.0.1
+openai>=1.0.0  # Ou google-generativeai, dependendo da sua brain_api
+requests>=2.31.0
+pydantic>=2.0.0
+speechrecognition>=3.14.2
+edge-tts>=0.1.0
+google-generativeai>=0.1.0
+
+##for manual installation, you can use the following command: pip install [name of the package]
