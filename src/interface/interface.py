@@ -32,8 +32,6 @@ img_state_gorilla = {
 def returns_img_path(state):
     """Retorna o respectivo caminho da imagem de cada estado do avatar."""
 
-    IMG_FOLDER = r"..\services\image"
-
     try:
         img_path = os.path.join(os.path.dirname(__file__), "..", "services", "image", img_state_gorilla[state])
 
@@ -58,8 +56,5 @@ def display_gorilla(img_path, root, root_bg):
         raise SystemExit
 
     return label.pack(expand=True) 
-
-#exemplo de chamado da função: 
-display_gorilla(returns_img_path("eyes_opened"), root, root_bg)
 
 root.mainloop()
