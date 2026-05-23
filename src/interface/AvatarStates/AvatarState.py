@@ -42,5 +42,11 @@ class AvatarState(ABC):
         return label.image
     
     @abstractmethod
-    def enter_state(self, label):
-        pass
+    def enter_state(self, label, interface):
+        
+        """ Esse método gera a troca de estados do avatar.
+        Seus parâmetros são:
+        label: widget Label do Tkinter, é o container onde a imagem é exibida na janela.
+        interface: instância de InterfaceGnokIA, que possibilita acesso ao método force_state(). 
+        """
+        pass # esse método é abstract, não é inicializado, mas é herdado pelas classes filhas

@@ -27,18 +27,54 @@ class InterfaceGnokIA:
         # declara componentes do avatar
         self.label = tk.Label(self.root, bg=self.root_bg)
         self.label.pack(expand=True)
-        self.current_state = None # inicialização
+        self.current_state = None # inicialização do estado do avatar
+
+        # inicialiação do id do agendador .after() usado nas animações do avatar
+        self.after_id = None
 
     # estabelece a exibição do avatar
     def force_state(self, new_state):
+        """Esse método 'chama' a mudança de estado do avatar.
+        A mudança de imagem ocorre posteriormente a partir de enter_state().
+        """
         self.current_state = new_state
-        self.current_state.enter_state(self.label) 
+        if self.after_id is not None:
+            self.label.after_cancel(self.after_id)
+        self.current_state.enter_state(self.label, self) 
+
+    # animação de piscar do avatar
+    def start_blinking_animation(self):
+        """Verifica os estados do avatar para fazer a animação dele piscando"""
+
+        if isinstance(self.current_state, OpenedEyeState):
+            self.force_state(ClosedEyeState())
+        else:
+            self.force_state(OpenedEyeState())
+
+    def stop_blinking_animation(self):
+        """Interrompe a animação de piscar quando outro estado é chamado"""        
+
+        # ?????
+
+    # animação de fala do avatar
+    def start_talking_animation(self):
+        """Verifica os estados do avatar para fazer a animação dele falando."""
+
+        if isinstance(self.current_state, OpenMouthState):
+            self.force_state(TalkingState())
+        else:
+            self.force_state(OpenMouthState())
+
+    def stop_talking_animation(self):
+        """Interrompe a animação de piscar quando outro estado é chamado"""        
+
+        # ?????
 
     # roda o programa
     def run(self):
         self.root.mainloop()
 
 # exemplo de execução da interface
-interfaceGnokIA = InterfaceGnokIA()
-interfaceGnokIA.force_state(OpenedEyeState())
-interfaceGnokIA.run()
+interface = InterfaceGnokIA()
+interface.force_state(OpenedEyeState())
+interface.run()
