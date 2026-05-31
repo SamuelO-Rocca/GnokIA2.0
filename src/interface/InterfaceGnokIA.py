@@ -1,7 +1,9 @@
 #imports
 
 import tkinter as tk
+import queue
 from AvatarStates import *  
+from message_queue import msg_queue, WAITING, LISTENING, THINKING, TALKING
 
 class InterfaceGnokIA:
     def __init__(self):
@@ -32,6 +34,9 @@ class InterfaceGnokIA:
         # inicialiação do id do agendador .after() usado nas animações do avatar
         self.after_id = None
 
+        # chama a função que agenda as trocas de estado recebendo mensagens da fila
+        self.state_switching()
+
     # estabelece a exibição do avatar
     def force_state(self, new_state):
         """Esse método 'chama' a mudança de estado do avatar.
@@ -51,11 +56,6 @@ class InterfaceGnokIA:
         else:
             self.force_state(OpenedEyeState())
 
-    def stop_blinking_animation(self):
-        """Interrompe a animação de piscar quando outro estado é chamado"""        
-
-        # ?????
-
     # animação de fala do avatar
     def start_talking_animation(self):
         """Verifica os estados do avatar para fazer a animação dele falando."""
@@ -65,10 +65,26 @@ class InterfaceGnokIA:
         else:
             self.force_state(OpenMouthState())
 
-    def stop_talking_animation(self):
-        """Interrompe a animação de piscar quando outro estado é chamado"""        
+    # providencia a troca de imagem a partir da verificação de mensagens da fila
+    def state_switching(self):
+        """Verifica na fila de mensagens se há uma troca de imagem agendada para o avatar. Providencia a troca se necessário, e, se não, agenda a execução da função novamente para verificar de novo mais tarde."""
 
-        # ?????
+        try:
+            msg = msg_queue.get_nowait()
+            match msg:
+                case "WAITING":
+                    self.force_state(OpenedEyeState())
+                case "LISTENING":
+                    self.force_state(ListeningState())
+                case "THINKING":
+                    self.force_state(ThinkingState())
+                case "TALKING":
+                    self.force_state(OpenMouthState())
+        except queue.Empty:
+            self.after_id = self.root.after(100, lambda: self.state_switching())    
+                
+
+
 
     # roda o programa
     def run(self):
