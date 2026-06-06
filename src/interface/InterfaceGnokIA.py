@@ -25,9 +25,6 @@ class InterfaceGnokIA:
         self.root.geometry(f"{self.root_width}x{self.root_height}+{self.center_width}+{self.center_height}")
         self.root.configure(bg=self.root_bg)
 
-        #encerra o agendamento do .after se a janela for fechada
-        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
-
         # declara componentes do avatar
         self.label = tk.Label(self.root, bg=self.root_bg)
         self.label.pack(expand=True)
