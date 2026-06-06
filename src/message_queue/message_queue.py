@@ -9,7 +9,3 @@ TALKING = "TALKING"
 
 
 msg_queue = queue.Queue()
-
-
-
-

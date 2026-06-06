@@ -2,9 +2,8 @@
 
 import tkinter as tk
 import queue
-from AvatarStates import *  
-from message_queue import msg_queue, WAITING, LISTENING, THINKING, TALKING
-
+from src.interface.AvatarStates import *
+from src.message_queue.message_queue import msg_queue, WAITING, LISTENING, THINKING, TALKING
 class InterfaceGnokIA:
     def __init__(self):
         self.root = tk.Tk()
@@ -25,6 +24,9 @@ class InterfaceGnokIA:
         # estabelece as medidas e a cor da janela
         self.root.geometry(f"{self.root_width}x{self.root_height}+{self.center_width}+{self.center_height}")
         self.root.configure(bg=self.root_bg)
+
+        #encerra o agendamento do .after se a janela for fechada
+        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
 
         # declara componentes do avatar
         self.label = tk.Label(self.root, bg=self.root_bg)
@@ -82,9 +84,6 @@ class InterfaceGnokIA:
                     self.force_state(OpenMouthState())
         except queue.Empty:
             self.after_id = self.root.after(100, lambda: self.state_switching())    
-                
-
-
 
     # roda o programa
     def run(self):
