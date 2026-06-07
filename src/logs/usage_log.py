@@ -1,7 +1,7 @@
 from datetime import datetime
 import os
 
-LOG_FILE_PATH = "project/src/logs/"
+LOG_FILE_PATH = os.path.dirname(__file__)
 
 def _timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
