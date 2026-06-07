@@ -29,13 +29,23 @@ def orchestrate():
 
         send_msg(LISTENING)
         question_audio = capture_audio()
+        if question_audio is None:
+            send_msg(WAITING)
+            continue
+
         question_text = processing_audio_to_text(question_audio)
+        if question_text is None:
+            send_msg(WAITING)
+            continue
 
         send_msg(THINKING)
         response_text = process_user_input(question_text)
+        if response_text is None:
+            send_msg(WAITING)
+            continue
 
         send_msg(TALKING)
-        response_audio = tts.synthesize_text_to_speech(response_text)
+        tts.synthesize_text_to_speech(response_text)
 
         send_msg(WAITING)
 
