@@ -85,7 +85,6 @@ class InterfaceGnokIA:
 
     # roda o programa
     def run(self):
-        self.root.deiconify()
         self.root.mainloop()
 
 # exemplo de execução da interface a partir da main
