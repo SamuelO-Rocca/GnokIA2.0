@@ -7,44 +7,32 @@ WAY_AUDIO = os.path.join(os.getcwd(), "src/services/audio/mp3_files")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def capture_audio(flag_recording):
-    recorgnizer = sr.Recognizer()
+
+def capture_audio():
+    recognizer = sr.Recognizer()
+    recognizer.pause_threshold = 3.0
     with sr.Microphone() as source:
         logging.info("Listening...")
-        recorgnizer.adjust_for_ambient_noise(source, duration = 0.5)
-        buffer_frames = []
-        sample_rate = 44100
-        sample_width = 2
-
+        recognizer.adjust_for_ambient_noise(source, duration = 0.5)
         logging.info("Recording...")
 
-
         try:
-            while flag_recording():
-                frame = source.stream.read(source.CHUNK)
-                buffer_frames.append(frame)
+            audio = recognizer.listen(source, phrase_time_limit=60)
+            logging.info("Finished recording.")
+            return audio
         except Exception as e:
             logging.error(f"Error during recording: {e}")
             return None
-        logging.info("Finished recording.")
-
-
-        full_audio = b''.join(buffer_frames)
-        audio_data = sr.AudioData(
-            frame_data = full_audio,
-            sample_rate = sample_rate,
-            sample_width = sample_width
-        )
-        return audio_data
     
-def processing_audio_to_text(audio_data, language="pt-BR", second_language="en-US"):
+
+def processing_audio_to_text(audio_data, language="pt-BR"):
     if audio_data is None:
         logging.error("No audio data to process.")
         return None
     
-    recorgnizer = sr.Recognizer()
+    recognizer = sr.Recognizer()
     try:
-        text = recorgnizer.recognize_google(audio_data, language=language or second_language)
+        text = recognizer.recognize_google(audio_data, language=language)
         logging.info(f"Recognized text: {text}")
         return text
     except sr.UnknownValueError:
