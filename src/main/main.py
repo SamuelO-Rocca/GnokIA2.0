@@ -1,4 +1,8 @@
-# from src.message_queue.message_queue import message_queue
+from src.message_queue.message_queue import msg_queue, WAITING, LISTENING, THINKING, TALKING
+from src.interface.InterfaceGnokIA import InterfaceGnokIA
+from src.interface.AvatarStates import *
 
-# def send_msg_queue(msg_queue):
-#     #
+def run():
+    interface = InterfaceGnokIA()
+    interface.root.after(0, lambda: interface.force_state(OpenedEyeState()))
+    interface.run()

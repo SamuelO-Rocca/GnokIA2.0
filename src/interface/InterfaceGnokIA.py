@@ -2,11 +2,14 @@
 
 import tkinter as tk
 import queue
+
 from src.interface.AvatarStates import *
 from src.message_queue.message_queue import msg_queue, WAITING, LISTENING, THINKING, TALKING
+
 class InterfaceGnokIA:
     def __init__(self):
         self.root = tk.Tk()
+        self.root.withdraw()
         self.root_bg = "#0A0A0A"
 
         # calcula medidas da tela da máquina 
@@ -24,7 +27,7 @@ class InterfaceGnokIA:
         # estabelece as medidas e a cor da janela
         self.root.geometry(f"{self.root_width}x{self.root_height}+{self.center_width}+{self.center_height}")
         self.root.configure(bg=self.root_bg)
-
+        
         # declara componentes do avatar
         self.label = tk.Label(self.root, bg=self.root_bg)
         self.label.pack(expand=True)
@@ -44,6 +47,7 @@ class InterfaceGnokIA:
         self.current_state = new_state
         if self.after_id is not None:
             self.label.after_cancel(self.after_id)
+
         self.current_state.enter_state(self.label, self) 
 
     # animação de piscar do avatar
@@ -64,10 +68,7 @@ class InterfaceGnokIA:
         else:
             self.force_state(OpenMouthState())
 
-    # providencia a troca de imagem a partir da verificação de mensagens da fila
     def state_switching(self):
-        """Verifica na fila de mensagens se há uma troca de imagem agendada para o avatar. Providencia a troca se necessário, e, se não, agenda a execução da função novamente para verificar de novo mais tarde."""
-
         try:
             msg = msg_queue.get_nowait()
             match msg:
@@ -80,13 +81,16 @@ class InterfaceGnokIA:
                 case "TALKING":
                     self.force_state(OpenMouthState())
         except queue.Empty:
-            self.after_id = self.root.after(100, lambda: self.state_switching())    
+            self.after_id = self.root.after(100, lambda: self.state_switching())
 
     # roda o programa
     def run(self):
+        self.root.deiconify()
         self.root.mainloop()
 
-# exemplo de execução da interface
-interface = InterfaceGnokIA()
-interface.force_state(OpenedEyeState())
-interface.run()
+# exemplo de execução da interface a partir da main
+
+if __name__ == "__main__":
+    interface = InterfaceGnokIA()
+    interface.force_state(OpenedEyeState())
+    interface.run()
