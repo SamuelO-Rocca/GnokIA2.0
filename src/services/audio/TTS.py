@@ -13,7 +13,7 @@ class TTS:
             file_arquive = f"response_{i}.mp3"
             communicate = edge_tts.Communicate(block, voice=voice, rate="-5%", pitch="-2Hz", volume="+5dB")
             await communicate.save(file_arquive)
-            subprocess.run, ["mpg123", "-q", file_arquive]
+            subprocess.run(["mpg123", "-q", file_arquive])
             os.remove(file_arquive)
             await asyncio.sleep(0.5)
 

@@ -12,7 +12,7 @@ def capture_audio(flag_recording):
     with sr.Microphone() as source:
         logging.info("Listening...")
         recorgnizer.adjust_for_ambient_noise(source, duration = 0.5)
-        buffer_frames = 1024
+        buffer_frames = []
         sample_rate = 44100
         sample_width = 2
 
@@ -44,7 +44,7 @@ def processing_audio_to_text(audio_data, language="pt-BR", second_language="en-U
     
     recorgnizer = sr.Recognizer()
     try:
-        text = recorgnizer.recogiznize_google(audio_data, language=language or second_language)
+        text = recorgnizer.recognize_google(audio_data, language=language or second_language)
         logging.info(f"Recognized text: {text}")
         return text
     except sr.UnknownValueError:
