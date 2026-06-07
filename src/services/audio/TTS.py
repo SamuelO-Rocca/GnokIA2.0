@@ -4,6 +4,10 @@ import asyncio
 import os
 import subprocess
 import edge_tts
+import platform
+
+if platform.system() == "Windows":
+    from playsound import playsound
 
 class TTS:
     async def synthesize_text_to_speech_async(self, text):
@@ -13,7 +17,10 @@ class TTS:
             file_arquive = f"response_{i}.mp3"
             communicate = edge_tts.Communicate(block, voice=voice, rate="-5%", pitch="-2Hz", volume="+5dB")
             await communicate.save(file_arquive)
-            subprocess.run, ["mpg123", "-q", file_arquive]
+            if platform.system() == "Windows":
+                playsound(file_arquive)
+            else:
+                subprocess.run(["mpg123", "-q", file_arquive])
             os.remove(file_arquive)
             await asyncio.sleep(0.5)
 
@@ -27,7 +34,7 @@ class TTS:
         text = re.sub(r"[*_#`~^]", "", text)
         text = re.sub(r"\s{2,}", " ", text).strip()
         emoji_pattern = re.compile(
-            "[" 
+            "["
             "\U0001F600-\U0001F64F"
             "\U0001F300-\U0001F5FF"
             "\U0001F680-\U0001F6FF"

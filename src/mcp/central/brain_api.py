@@ -2,7 +2,7 @@ import os
 
 from google import genai
 from config.config import MODEL_NAME, OPENAI_API_KEY, OPENAI_API_BASE, EMBEDDING_DEPLOYMENT_NAME, LIMIT_TOKENS, MAX_RESPONSE_TOKENS
-from logs.usege_log import use_register, register_error
+from src.logs.usage_log import use_register, register_error
 
 client = genai.Client(
     api_key= OPENAI_API_KEY,
